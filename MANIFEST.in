@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include subscriptions2 *.css
+recursive-include subscriptions2 *.csv
+recursive-include subscriptions2 *.html
+recursive-include subscriptions2 *.ico
+recursive-include subscriptions2 *.js
+recursive-include subscriptions2 *.json
+recursive-include subscriptions2 *.md
+recursive-include subscriptions2 *.png
+recursive-include subscriptions2 *.py
+recursive-include subscriptions2 *.svg
+recursive-include subscriptions2 *.txt
+recursive-exclude subscriptions2 *.pyc

@@ -1,0 +1,405 @@
+{
+ "actions": [],
+ "autoname": "ACC-SUB2-.YYYY.-.#####",
+ "creation": "2022-04-13 16:52:38.403080",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "status",
+  "party_type",
+  "party",
+  "cb_1",
+  "company",
+  "plan",
+  "billing_interval",
+  "billing_interval_count",
+  "subscription_period",
+  "start_date",
+  "end_date",
+  "cancellation_date",
+  "trial_period_start",
+  "trial_period_end",
+  "column_break_11",
+  "next_invoice_start",
+  "next_invoice_end",
+  "calendar_billing",
+  "prorata",
+  "billed_in_arrears",
+  "cancel_if_overdue",
+  "cancel_at_period_end",
+  "submit_invoice",
+  "sb_4",
+  "items",
+  "price_list_currency",
+  "total",
+  "sb_1",
+  "payment_terms_template",
+  "sales_tax_template",
+  "purchase_tax_template",
+  "sb_2",
+  "apply_additional_discount",
+  "cb_2",
+  "additional_discount_percentage",
+  "additional_discount_amount",
+  "sb_adims",
+  "cost_center"
+ ],
+ "fields": [
+  {
+   "allow_on_submit": 1,
+   "fieldname": "cb_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "no_copy": 1,
+   "options": "\nTrialling\nActive\nOverdue\nCancelled\nUnpaid\nCompleted",
+   "read_only": 1
+  },
+  {
+   "fieldname": "subscription_period",
+   "fieldtype": "Section Break",
+   "label": "Subscription Period"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "trial_period_start",
+   "fieldtype": "Date",
+   "label": "Trial Period Start Date",
+   "no_copy": 1,
+   "set_only_once": 1
+  },
+  {
+   "depends_on": "eval:doc.trial_period_start",
+   "fieldname": "trial_period_end",
+   "fieldtype": "Date",
+   "label": "Trial Period End Date",
+   "mandatory_depends_on": "eval:doc.trial_period_start",
+   "no_copy": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "column_break_11",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "cancel_at_period_end",
+   "fieldtype": "Check",
+   "label": "Cancel At End Of Period",
+   "print_hide": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "sb_4",
+   "fieldtype": "Section Break",
+   "label": "Items"
+  },
+  {
+   "depends_on": "eval:['Customer', 'Supplier'].includes(doc.party_type)",
+   "fieldname": "sb_1",
+   "fieldtype": "Section Break",
+   "label": "Terms"
+  },
+  {
+   "fieldname": "sb_2",
+   "fieldtype": "Section Break",
+   "label": "Discounts"
+  },
+  {
+   "default": "Grand Total",
+   "fieldname": "apply_additional_discount",
+   "fieldtype": "Select",
+   "label": "Apply Additional Discount On",
+   "options": "Grand Total\nNet Total"
+  },
+  {
+   "fieldname": "cb_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0.0",
+   "fieldname": "additional_discount_percentage",
+   "fieldtype": "Percent",
+   "label": "Additional DIscount Percentage"
+  },
+  {
+   "collapsible": 1,
+   "default": "0.0",
+   "fieldname": "additional_discount_amount",
+   "fieldtype": "Currency",
+   "label": "Additional DIscount Amount",
+   "options": "price_list_currency"
+  },
+  {
+   "fieldname": "party_type",
+   "fieldtype": "Select",
+   "label": "Party Type",
+   "options": "Customer\nSupplier",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Dynamic Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Party",
+   "options": "party_type",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "depends_on": "eval:doc.party_type === 'Customer'",
+   "fieldname": "sales_tax_template",
+   "fieldtype": "Link",
+   "label": "Sales Taxes and Charges Template",
+   "options": "Sales Taxes and Charges Template"
+  },
+  {
+   "depends_on": "eval:doc.party_type === 'Supplier'",
+   "fieldname": "purchase_tax_template",
+   "fieldtype": "Link",
+   "label": "Purchase Taxes and Charges Template",
+   "options": "Purchase Taxes and Charges Template"
+  },
+  {
+   "description": "The subscription will automatically be completed after this date. Leave blank for indefinite billing",
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "Subscription End Date",
+   "no_copy": 1
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Subscription Start Date",
+   "no_copy": 1,
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "submit_invoice",
+   "fieldtype": "Check",
+   "label": "Submit Generated Invoices",
+   "print_hide": 1
+  },
+  {
+   "default": "0",
+   "description": "New invoices will be created for calendar months and quarters irrespective of start date. Anniversary billing is the default",
+   "fieldname": "calendar_billing",
+   "fieldtype": "Check",
+   "label": "Calendar Billing",
+   "set_only_once": 1
+  },
+  {
+   "default": "0",
+   "description": "The amount charged is proportional to the invoice period, charged by the day",
+   "fieldname": "prorata",
+   "fieldtype": "Check",
+   "label": "Prorata",
+   "set_only_once": 1
+  },
+  {
+   "default": "0",
+   "description": "Bill at the beginning of a period (in advance) or at the end (in arrears)",
+   "fieldname": "billed_in_arrears",
+   "fieldtype": "Check",
+   "label": "Billed In Arrears",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "payment_terms_template",
+   "fieldtype": "Link",
+   "label": "Payment Terms Template",
+   "options": "Payment Terms Template"
+  },
+  {
+   "default": "0",
+   "fieldname": "cancel_if_overdue",
+   "fieldtype": "Check",
+   "label": "Cancel If Overdue",
+   "print_hide": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Subscription2 Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "plan",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Subscription Plan",
+   "options": "Subscription2 Plan",
+   "reqd": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "sb_adims",
+   "fieldtype": "Section Break",
+   "label": "Accounting Dimensions"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center",
+   "print_hide": 1
+  },
+  {
+   "fieldname": "cancellation_date",
+   "fieldtype": "Date",
+   "label": "Cancellation Date",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fetch_from": "plan.billing_interval",
+   "fieldname": "billing_interval",
+   "fieldtype": "Data",
+   "label": "Billing Interval",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "plan.billing_interval_count",
+   "fieldname": "billing_interval_count",
+   "fieldtype": "Int",
+   "label": "Billing Interval Count",
+   "read_only": 1
+  },
+  {
+   "fieldname": "price_list_currency",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Price List Currency",
+   "no_copy": 1,
+   "options": "Currency",
+   "print_hide": 1
+  },
+  {
+   "bold": 1,
+   "fieldname": "total",
+   "fieldtype": "Currency",
+   "label": "Total",
+   "options": "price_list_currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "next_invoice_start",
+   "fieldtype": "Date",
+   "label": "Next Invoice Start Date",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "next_invoice_end",
+   "fieldtype": "Date",
+   "label": "Next Invoice End Date",
+   "no_copy": 1,
+   "read_only": 1
+  }
+ ],
+ "links": [
+  {
+   "group": "Buying",
+   "link_doctype": "Purchase Invoice",
+   "link_fieldname": "subscription"
+  },
+  {
+   "group": "Selling",
+   "link_doctype": "Sales Invoice",
+   "link_fieldname": "subscription"
+  }
+ ],
+ "modified": "2022-06-08 23:49:50.439298",
+ "modified_by": "Administrator",
+ "module": "Subscriptions2",
+ "name": "Subscription2",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "party,status,start_date",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
